@@ -43,7 +43,7 @@ public class Main {
         Subtask updateSubtask11 = new Subtask("Подзадача 1 к эпику 1",
                 "Новое описание подзадачи к эпику 1", TaskStatus.NEW, epic1.getId());
         Subtask updateSubtask12 = new Subtask("Подзадача 2 к эпику 1",
-                "Новое описание подзадачи 2 2", TaskStatus.DONE, epic1.getId());
+                "Новое описание подзадачи 1 2", TaskStatus.DONE, epic1.getId());
         updateSubtask11.setId(subtask1.getId());
         updateSubtask12.setId(subtask2.getId());
         taskManager.updateSubtask(updateSubtask11);
@@ -53,7 +53,8 @@ public class Main {
         System.out.println("-".repeat(20));
 
         System.out.println(taskManager.getTaskById(task1.getId()));
-        System.out.println(taskManager.getEpicById(epic2.getId()));
+        System.out.println(taskManager.getEpicById(epic1.getId()));
+        System.out.println(taskManager.getSubtasksByEpic(epic1.getId()));
         System.out.println("-".repeat(20));
 
         taskManager.deleteTaskById(task1.getId());
