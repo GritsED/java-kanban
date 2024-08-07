@@ -52,6 +52,9 @@ public class Main {
         System.out.println(taskManager.getAllSubtasks());
         System.out.println("-".repeat(20));
 
+        System.out.println(taskManager.getTaskById(task1.getId()));
+        System.out.println(taskManager.getEpicById(epic2.getId()));
+        System.out.println("-".repeat(20));
 
         taskManager.deleteTaskById(task1.getId());
         System.out.println(taskManager.getAllTasks());
@@ -63,22 +66,16 @@ public class Main {
         System.out.println(taskManager.getAllSubtasks());
         System.out.println("-".repeat(20));
 
-
         taskManager.deleteAllTasks();
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println("-".repeat(20));
 
-
-
-
         taskManager.deleteAllSubtasks();
         System.out.println(taskManager.getAllSubtasks());
         System.out.println(taskManager.getAllEpics());
         System.out.println("-".repeat(20));
-
-
 
         taskManager.deleteAllEpics();
         System.out.println(taskManager.getAllEpics());
