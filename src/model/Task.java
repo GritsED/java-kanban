@@ -1,4 +1,4 @@
-package tracker.tasks;
+package model;
 
 import java.util.Objects;
 

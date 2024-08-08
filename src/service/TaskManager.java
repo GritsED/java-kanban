@@ -1,18 +1,18 @@
-package tracker;
+package service;
 
-import tracker.tasks.Epic;
-import tracker.tasks.Subtask;
-import tracker.tasks.Task;
-import tracker.tasks.TaskStatus;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import model.TaskStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
 
-    private static final HashMap<Integer, Task> idToTask = new HashMap<>();
-    private static final HashMap<Integer, Epic> idToEpic = new HashMap<>();
-    private static final HashMap<Integer, Subtask> idToSubtask = new HashMap<>();
+    private final HashMap<Integer, Task> idToTask = new HashMap<>();
+    private final HashMap<Integer, Epic> idToEpic = new HashMap<>();
+    private final HashMap<Integer, Subtask> idToSubtask = new HashMap<>();
     private static int id = 1;
 
     public Task addNewTask(Task newTask) {
@@ -27,7 +27,6 @@ public class TaskManager {
         int newEpicId = generateNewId();
         newEpic.setId(newEpicId);
         idToEpic.put(newEpic.getId(), newEpic);
-        updateEpicStatus(newEpicId);
         System.out.println("Эпик добавлен");
         return newEpic;
     }
@@ -148,7 +147,7 @@ public class TaskManager {
         idToSubtask.clear();
         for (Epic epic : idToEpic.values()) {
             epic.clearSubtasks();
-            updateEpicStatus(epic.getId());
+            epic.setStatus(TaskStatus.NEW);
         }
         System.out.println("Подзадачи удалены");
     }
@@ -216,10 +215,13 @@ public class TaskManager {
             return;
         }
         for (int id : epic.getSubtasksIds()) {
-            if (idToSubtask.get(id).getStatus() == TaskStatus.NEW) {
-                counterNew++;
+            if (idToSubtask.get(id).getStatus() == TaskStatus.IN_PROGRESS) {
+                epic.setStatus(TaskStatus.IN_PROGRESS);
+                return;
             } else if (idToSubtask.get(id).getStatus() == TaskStatus.DONE) {
                 counterDone++;
+            } else if (idToSubtask.get(id).getStatus() == TaskStatus.NEW) {
+                counterNew++;
             }
         }
         if (counterNew == epic.getSubtasksIds().size()) {

@@ -1,9 +1,8 @@
-package tracker;
-
-import tracker.tasks.Epic;
-import tracker.tasks.Subtask;
-import tracker.tasks.Task;
-import tracker.tasks.TaskStatus;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import model.TaskStatus;
+import service.TaskManager;
 
 public class Main {
 
@@ -12,11 +11,15 @@ public class Main {
 
         TaskManager taskManager = new TaskManager();
 
-        Task task1 = taskManager.addNewTask(new Task("Задача 1", "Описание 1", TaskStatus.NEW));
-        Task task2 = taskManager.addNewTask(new Task("Задача 2", "Описание 2", TaskStatus.NEW));
+        Task task1 = taskManager.addNewTask(new Task("Задача 1", "Описание 1"));
+        Task task2 = taskManager.addNewTask(new Task("Задача 2", "Описание 2"));
 
         Epic epic1 = taskManager.addNewEpic(new Epic("Эпик 1", "Описание эпика 1"));
         Epic epic2 = taskManager.addNewEpic(new Epic("Эпик 2", "Описание эпика 2"));
+        Epic epic3 = taskManager.addNewEpic(new Epic("Эпик 3", "Описание эпика 3"));
+
+        System.out.println(taskManager.getAllEpics());
+
 
         Subtask subtask1 = taskManager.addNewSubtask(new Subtask("Подзадача 1 к эпику 1",
                 "Описание 1", TaskStatus.NEW, epic1.getId()));
@@ -24,7 +27,7 @@ public class Main {
                 "Описание 1", TaskStatus.DONE, epic1.getId()));
 
         Subtask subtask3 = taskManager.addNewSubtask(new Subtask("Подзадача 1 к эпику 2",
-                "Описание 1", TaskStatus.NEW, epic2.getId()));
+                "Описание 1", TaskStatus.DONE, epic2.getId()));
 
         System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
@@ -43,7 +46,7 @@ public class Main {
         Subtask updateSubtask11 = new Subtask("Подзадача 1 к эпику 1",
                 "Новое описание подзадачи к эпику 1", TaskStatus.NEW, epic1.getId());
         Subtask updateSubtask12 = new Subtask("Подзадача 2 к эпику 1",
-                "Новое описание подзадачи 1 2", TaskStatus.DONE, epic1.getId());
+                "Новое описание подзадачи 1 2", TaskStatus.DONE, 15);
         updateSubtask11.setId(subtask1.getId());
         updateSubtask12.setId(subtask2.getId());
         taskManager.updateSubtask(updateSubtask11);
