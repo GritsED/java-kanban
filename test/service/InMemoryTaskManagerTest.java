@@ -323,16 +323,38 @@ class InMemoryTaskManagerTest {
         taskManager.addNewTask(expectedSubtask2);
 
         //do
-        Subtask updatedSubtask1 = new Subtask(2, "Subtask2_update", "Description", TaskStatus.DONE, 1);
-        Subtask updatedSubtask2 = new Subtask(3,"Subtask2_update", "Description", TaskStatus.DONE, 1 );
+        Subtask updatedSubtask1 = new Subtask(
+                2, "Subtask2_update", "Description", TaskStatus.DONE, 1);
+        Subtask updatedSubtask2 = new Subtask(
+                3,"Subtask2_update", "Description", TaskStatus.DONE, 1 );
 
         //check
         assertEquals(TaskStatus.NEW, epic.getStatus());
         taskManager.updateTask(updatedSubtask1);
         taskManager.updateTask(updatedSubtask2);
         assertEquals(TaskStatus.DONE, epic.getStatus());
+    }
 
+    @Test
+    void updateEpicStatus_shouldUpdateEpicStatusToInProgress() {
+        //prepare
+        Epic epic = new Epic("Epic_1", "Description");
+        taskManager.addNewTask(epic);
+        Subtask expectedSubtask1 = new Subtask( "Subtask2", "Description", TaskStatus.NEW, 1);
+        Subtask expectedSubtask2 = new Subtask( "Subtask2", "Description", TaskStatus.NEW, 1);
+        taskManager.addNewTask(expectedSubtask1);
+        taskManager.addNewTask(expectedSubtask2);
 
+        //do
+        Subtask updatedSubtask1 = new Subtask(
+                2, "Subtask2_update", "Description", TaskStatus.IN_PROGRESS, 1);
+        Subtask updatedSubtask2 = new Subtask(
+                3,"Subtask2_update", "Description", TaskStatus.DONE, 1 );
 
+        //check
+        assertEquals(TaskStatus.NEW, epic.getStatus());
+        taskManager.updateTask(updatedSubtask1);
+        taskManager.updateTask(updatedSubtask2);
+        assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
     }
 }
