@@ -40,7 +40,7 @@ class InMemoryTaskManagerTest {
         Epic expectedEpic = new Epic(1, "Эпик", "Описание");
 
         // do
-        Task actualEpic = taskManager.addNewTask(epic);
+        Epic actualEpic = taskManager.addNewEpic(epic);
 
         //check
         assertNotNull(actualEpic);
@@ -52,12 +52,12 @@ class InMemoryTaskManagerTest {
     void addNewSubtask_shouldSaveTaskWithEpic() {
         //prepare
         Epic epic = new Epic("Эпик", "Описание");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask subtask = new Subtask("Subtask", "Description", 1);
         Subtask expectedSubtask = new Subtask(2, "Subtask", "Description", 1);
 
         // do
-        Subtask actualSubtask = taskManager.addNewTask(subtask);
+        Subtask actualSubtask = taskManager.addNewSubtask(subtask);
 
         //check
         assertNotNull(actualSubtask);
@@ -71,7 +71,7 @@ class InMemoryTaskManagerTest {
         Subtask subtask = new Subtask("Subtask", "Description", 1);
 
         // do
-        Subtask actualSubtask = taskManager.addNewTask(subtask);
+        Subtask actualSubtask = taskManager.addNewSubtask(subtask);
 
         //check
         assertNull(actualSubtask);
@@ -96,12 +96,12 @@ class InMemoryTaskManagerTest {
     void updateTask_shouldUpdateEpicWithSpecifiedId() {
         //prepare
         Epic epic = new Epic("Epic_2", "Description_2");
-        Epic savedEpic = taskManager.addNewTask(epic);
+        Epic savedEpic = taskManager.addNewEpic(epic);
         Epic updateEpic = new Epic(savedEpic.getId(), "Epic_2_updated", "Description_2_updated");
         Epic expectedUpdateEpic = new Epic(savedEpic.getId(), "Epic_2_updated", "Description_2_updated");
 
         // do
-        Epic actualUpdatedEpic = taskManager.updateTask(updateEpic);
+        Epic actualUpdatedEpic = taskManager.updateEpic(updateEpic);
 
         // check
         assertEquals(expectedUpdateEpic, actualUpdatedEpic);
@@ -111,14 +111,14 @@ class InMemoryTaskManagerTest {
     void updateTask_shouldUpdateSubtaskWithSpecifiedId() {
         //prepare
         Epic epic = new Epic("Epic_2", "Description_2");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask subtask = new Subtask("Subtask_1", "Description_1", 1);
-        Subtask savedSubtask = taskManager.addNewTask(subtask);
+        Subtask savedSubtask = taskManager.addNewSubtask(subtask);
         Subtask updateSubtask = new Subtask(savedSubtask.getId(), "Subtask_1_updated", "Description_1_updated", 1);
         Subtask expectedUpdateSubtask = new Subtask(savedSubtask.getId(), "Subtask_1_updated", "Description_1_updated", 1);
 
         // do
-        Subtask actualUpdatedSubtask = taskManager.updateTask(updateSubtask);
+        Subtask actualUpdatedSubtask = taskManager.updateSubtask(updateSubtask);
 
         // check
         assertEquals(expectedUpdateSubtask, actualUpdatedSubtask);
@@ -143,7 +143,7 @@ class InMemoryTaskManagerTest {
     void deleteTask_shouldDeleteEpicById() {
         // prepare
         Epic epic = new Epic("Epic_1", "Description_1");
-        Epic savedEpic = taskManager.addNewTask(epic);
+        Epic savedEpic = taskManager.addNewEpic(epic);
 
         // do
         int epicId = savedEpic.getId();
@@ -158,9 +158,9 @@ class InMemoryTaskManagerTest {
     void deleteTask_shouldDeleteSubtaskById() {
         // prepare
         Epic epic = new Epic("Epic_1", "Description_1");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask subtask = new Subtask("Subtask", "Description", 1);
-        Subtask savedSubtask = taskManager.addNewTask(subtask);
+        Subtask savedSubtask = taskManager.addNewSubtask(subtask);
 
         // do
         int subtaskId = savedSubtask.getId();
@@ -194,9 +194,9 @@ class InMemoryTaskManagerTest {
         Epic epic1 = new Epic("Epic_1", "Description");
         Epic epic2 = new Epic("Epic_1", "Description");
         Epic epic3 = new Epic("Epic_1", "Description");
-        taskManager.addNewTask(epic1);
-        taskManager.addNewTask(epic2);
-        taskManager.addNewTask(epic3);
+        taskManager.addNewEpic(epic1);
+        taskManager.addNewEpic(epic2);
+        taskManager.addNewEpic(epic3);
 
         // do
         // check
@@ -209,11 +209,11 @@ class InMemoryTaskManagerTest {
     void deleteAllTasks_shouldDeleteAllSubtasks() {
         // prepare
         Epic epic = new Epic("Epic_1", "Description");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask subtask1 = new Subtask("Subtask1", "Description", 1);
         Subtask subtask2 = new Subtask("Subtask2", "Description", 1);
-        taskManager.addNewTask(subtask1);
-        taskManager.addNewTask(subtask2);
+        taskManager.addNewSubtask(subtask1);
+        taskManager.addNewSubtask(subtask2);
 
         // do
         // check
@@ -258,9 +258,9 @@ class InMemoryTaskManagerTest {
 
 
         //do
-        taskManager.addNewTask(epic1);
-        taskManager.addNewTask(epic2);
-        taskManager.addNewTask(epic3);
+        taskManager.addNewEpic(epic1);
+        taskManager.addNewEpic(epic2);
+        taskManager.addNewEpic(epic3);
 
         //check
         assertEquals(expectedEpic1, taskManager.getAllEpics().get(0));
@@ -272,7 +272,7 @@ class InMemoryTaskManagerTest {
     void getAllTasks_shouldGetAllSubtasks() {
         //prepare
         Epic epic = new Epic("Epic_1", "Description");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask subtask1 = new Subtask("Subtask1", "Description", 1);
         Subtask subtask2 = new Subtask("Subtask2", "Description", 1);
 
@@ -281,8 +281,8 @@ class InMemoryTaskManagerTest {
 
 
         //do
-        taskManager.addNewTask(subtask1);
-        taskManager.addNewTask(subtask2);
+        taskManager.addNewSubtask(subtask1);
+        taskManager.addNewSubtask(subtask2);
 
         //check
         assertEquals(expectedSubtask1, taskManager.getAllSubtasks().get(0));
@@ -294,7 +294,7 @@ class InMemoryTaskManagerTest {
     void getAllTasks_shouldGetAllEpicSubtasks() {
         //prepare
         Epic epic = new Epic("Epic_1", "Description");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask subtask1 = new Subtask("Subtask1", "Description", 1);
         Subtask subtask2 = new Subtask("Subtask2", "Description", 1);
 
@@ -303,8 +303,8 @@ class InMemoryTaskManagerTest {
 
 
         //do
-        taskManager.addNewTask(subtask1);
-        taskManager.addNewTask(subtask2);
+        taskManager.addNewSubtask(subtask1);
+        taskManager.addNewSubtask(subtask2);
 
         //check
         assertEquals(expectedSubtask1, taskManager.getSubtasksByEpic(epic.getId()).get(0));
@@ -316,11 +316,11 @@ class InMemoryTaskManagerTest {
     void updateEpicStatus_shouldUpdateEpicStatusToDone() {
         //prepare
         Epic epic = new Epic("Epic_1", "Description");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask expectedSubtask1 = new Subtask( "Subtask2", "Description", TaskStatus.NEW, 1);
         Subtask expectedSubtask2 = new Subtask( "Subtask2", "Description", TaskStatus.NEW, 1);
-        taskManager.addNewTask(expectedSubtask1);
-        taskManager.addNewTask(expectedSubtask2);
+        taskManager.addNewSubtask(expectedSubtask1);
+        taskManager.addNewSubtask(expectedSubtask2);
 
         //do
         Subtask updatedSubtask1 = new Subtask(
@@ -330,8 +330,8 @@ class InMemoryTaskManagerTest {
 
         //check
         assertEquals(TaskStatus.NEW, epic.getStatus());
-        taskManager.updateTask(updatedSubtask1);
-        taskManager.updateTask(updatedSubtask2);
+        taskManager.updateSubtask(updatedSubtask1);
+        taskManager.updateSubtask(updatedSubtask2);
         assertEquals(TaskStatus.DONE, epic.getStatus());
     }
 
@@ -339,11 +339,11 @@ class InMemoryTaskManagerTest {
     void updateEpicStatus_shouldUpdateEpicStatusToInProgress() {
         //prepare
         Epic epic = new Epic("Epic_1", "Description");
-        taskManager.addNewTask(epic);
+        taskManager.addNewEpic(epic);
         Subtask expectedSubtask1 = new Subtask( "Subtask2", "Description", TaskStatus.NEW, 1);
         Subtask expectedSubtask2 = new Subtask( "Subtask2", "Description", TaskStatus.NEW, 1);
-        taskManager.addNewTask(expectedSubtask1);
-        taskManager.addNewTask(expectedSubtask2);
+        taskManager.addNewSubtask(expectedSubtask1);
+        taskManager.addNewSubtask(expectedSubtask2);
 
         //do
         Subtask updatedSubtask1 = new Subtask(
@@ -353,8 +353,8 @@ class InMemoryTaskManagerTest {
 
         //check
         assertEquals(TaskStatus.NEW, epic.getStatus());
-        taskManager.updateTask(updatedSubtask1);
-        taskManager.updateTask(updatedSubtask2);
+        taskManager.updateSubtask(updatedSubtask1);
+        taskManager.updateSubtask(updatedSubtask2);
         assertEquals(TaskStatus.IN_PROGRESS, epic.getStatus());
     }
 }
