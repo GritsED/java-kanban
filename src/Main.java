@@ -15,14 +15,14 @@ public class Main {
         Task task1 = taskManager.addNewTask(new Task("Задача 1", "Описание 1"));
         Task task2 = taskManager.addNewTask(new Task("Задача 2", "Описание 2"));
 
-        Epic epic1 = taskManager.addNewTask(new Epic("Эпик 1", "Описание эпика 1"));
-        Epic epic2 = taskManager.addNewTask(new Epic("Эпик 2", "Описание эпика 2"));
+        Epic epic1 = taskManager.addNewEpic(new Epic("Эпик 1", "Описание эпика 1"));
+        Epic epic2 = taskManager.addNewEpic(new Epic("Эпик 2", "Описание эпика 2"));
 
         System.out.println(taskManager.getAllEpics());
 
-        Subtask subtask1 = taskManager.addNewTask(new Subtask("Подзадача 1 к эпику 1",
+        Subtask subtask1 = taskManager.addNewSubtask(new Subtask("Подзадача 1 к эпику 1",
                 "Описание 1", TaskStatus.NEW, epic1.getId()));
-        Subtask subtask2 = taskManager.addNewTask(new Subtask("Подзадача 2 к эпику 1",
+        Subtask subtask2 = taskManager.addNewSubtask(new Subtask("Подзадача 2 к эпику 1",
                 "Описание 1", TaskStatus.DONE, epic1.getId()));
 
         System.out.println(taskManager.getAllTasks());
