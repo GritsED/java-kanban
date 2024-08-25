@@ -41,7 +41,7 @@ class InMemoryHistoryManagerTest {
     void getHistory_shouldDeleteFirstTaskIfListBigger10() {
         //prepare
         for (int i = 0; i <= 13; i++) {
-            Task task = new Task("Task " + i, "Dscription");
+            Task task = new Task("Task " + i, "Description");
             historyManager.addTask(task);
         }
 
@@ -50,6 +50,8 @@ class InMemoryHistoryManagerTest {
 
         //check
         assertNotNull(history);
+        assertEquals(10, history.size());
+        assertTrue(history.size()<=10);
         assertEquals("Task 4", history.get(0).getName());
         assertEquals("Task 13", history.get(9).getName());
     }
