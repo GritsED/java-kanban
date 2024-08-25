@@ -29,7 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic addNewTask(Epic newEpic) {
+    public Epic addNewEpic(Epic newEpic) {
         int newEpicId = generateNewId();
         newEpic.setId(newEpicId);
         idToEpic.put(newEpic.getId(), newEpic);
@@ -38,7 +38,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Subtask addNewTask(Subtask newSubtask) {
+    public Subtask addNewSubtask(Subtask newSubtask) {
         int epicId = newSubtask.getEpicId(); // получаем id эпика из объекта и присваиваем его в переменную
         if (!idToEpic.containsKey(epicId)) { // если айди эпика не совпадает с теми, что добавлены, выводим:
             System.out.println("Такого эпика нет");
@@ -67,7 +67,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic updateTask(Epic epic) {
+    public Epic updateEpic(Epic epic) {
         Epic updatedEpic = idToEpic.get(epic.getId());
         if (updatedEpic == null) {
             System.out.println("Такого эпика нет");
@@ -80,7 +80,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Subtask updateTask(Subtask subtask) {
+    public Subtask updateSubtask(Subtask subtask) {
         Subtask updatedSubtask = idToSubtask.get(subtask.getId());
         // значения из мапы с сабтасками и передаем его в переменную
         if (updatedSubtask == null) {  // проверяем есть ли значение в мапе с сабтасками
@@ -172,10 +172,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         Task task = idToTask.get(id);
-        if (Objects.nonNull(task)) {
-            historyManager.addTask(task);
-        }
+
         if (idToTask.containsKey(id)) {
+            historyManager.addTask(task);
             return idToTask.get(id);
         } else {
             System.out.println("Задачи нет");
@@ -186,10 +185,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         Epic task = idToEpic.get(id);
-        if (Objects.nonNull(task)) {
-            historyManager.addTask(task);
-        }
+
         if (idToEpic.containsKey(id)) {
+            historyManager.addTask(task);
             return idToEpic.get(id);
         } else {
             System.out.println("Эпика нет");
@@ -200,10 +198,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         Subtask task = idToSubtask.get(id);
-        if (Objects.nonNull(task)) {
-            historyManager.addTask(task);
-        }
+
         if (idToSubtask.containsKey(id)) {
+            historyManager.addTask(task);
             return idToSubtask.get(id);
         } else {
             System.out.println("Подзадачи нет");
@@ -230,7 +227,7 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Subtask> getSubtasksByEpic(int epicId) {
         if (idToEpic.containsKey(epicId)) {
             Epic epic = idToEpic.get(epicId);
-            ArrayList<Integer> subtaskIds = epic.getSubtasksIds();
+            List<Integer> subtaskIds = epic.getSubtasksIds();
             ArrayList<Subtask> epicSubtasks = new ArrayList<>();
             for (int id : subtaskIds) {
                 epicSubtasks.add(idToSubtask.get(id));
