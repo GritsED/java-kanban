@@ -10,15 +10,15 @@ import java.util.List;
 public interface TaskManager {
     Task addNewTask(Task newTask);
 
-    Epic addNewTask(Epic newEpic);
+    Epic addNewEpic(Epic newEpic);
 
-    Subtask addNewTask(Subtask newSubtask);
+    Subtask addNewSubtask(Subtask newSubtask);
 
     Task updateTask(Task task);
 
-    Epic updateTask(Epic epic);
+    Epic updateEpic(Epic epic);
 
-    Subtask updateTask(Subtask subtask);
+    Subtask updateSubtask(Subtask subtask);
 
     void deleteTaskById(Integer id);
 
