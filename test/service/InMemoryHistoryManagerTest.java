@@ -11,49 +11,132 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
 
     private HistoryManager historyManager;
+    private TaskManager taskManager;
 
     @BeforeEach
     void init() {
-        historyManager = Managers.getDefaultHistoryManager();
+        taskManager = Managers.getDefault();
+        historyManager = Managers.getDefaultHistory();
     }
 
     @Test
-    void getHistory_shouldAddTasksInHistory() {
-        // prepare
-        Task task1 = new Task("Task1", "Description");
-        Task task2 = new Task("Task2", "Description");
-        Task task3 = new Task("Task3", "Description");
-        Task task4 = new Task("Task4", "Description");
-
-        // do
-        historyManager.addTask(task1);
-        historyManager.addTask(task2);
-        historyManager.addTask(task3);
-        historyManager.addTask(task4);
-
-        //check
-        List<Task> history = historyManager.getHistory();
-        assertNotNull(history);
-
-    }
-
-    @Test
-    void getHistory_shouldDeleteFirstTaskIfListBigger10() {
+    void add_shouldAddTask(){
         //prepare
-        for (int i = 0; i <= 13; i++) {
-            Task task = new Task("Task " + i, "Description");
-            historyManager.addTask(task);
-        }
+        Task task1 = new Task(0, "Task1", "Description");
 
         // do
-        List<Task> history = historyManager.getHistory();
+        historyManager.add(task1);
 
         //check
+        List<Task> history = historyManager.getHistory();
         assertNotNull(history);
-        assertEquals(10, history.size());
-        assertTrue(history.size()<=10);
-        assertEquals("Task 4", history.get(0).getName());
-        assertEquals("Task 13", history.get(9).getName());
+        assertEquals(task1, history.getFirst());
     }
 
+    @Test
+    void add_shouldSaveOrder() {
+        // prepare
+        Task task1 = new Task(1, "Task1", "Description");
+        Task task2 = new Task(2, "Task2", "Description");
+        Task task3 = new Task(3, "Task3", "Description");
+        Task task4 = new Task(4, "Task4", "Description");
+
+        // do
+        historyManager.add(task1);
+        historyManager.add(task4);
+        historyManager.add(task3);
+        historyManager.add(task2);
+
+        //check
+        List<Task> history = historyManager.getHistory();
+        assertNotNull(history);
+        assertEquals(4, history.size());
+        assertEquals(task1, history.get(0));
+        assertEquals(task4, history.get(1));
+        assertEquals(task2, history.get(3));
+
+    }
+
+    @Test
+    void add_shouldMoveTaskToEnd() {
+        //prepare
+        Task task1 = new Task(1, "Task1", "Description1");
+        Task task2 = new Task(2, "Task2", "Description2");
+
+        //do
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task1); // Добавляем task1 снова
+
+        //check
+        List<Task> history = historyManager.getHistory();
+        assertEquals(2, history.size());
+        assertEquals(task2, history.get(0)); // task2 должен остаться первым
+        assertEquals(task1, history.get(1)); // task1 перемещен в конец
+
+    }
+
+    @Test
+    void add_shouldAddSameTasksOneTime() {
+        //prepare
+        Task task = new Task(1, "Task2", "Description");
+
+        //do
+        historyManager.add(task);
+        historyManager.add(task);
+
+        //check
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size());
+    }
+
+    @Test
+    void add_shouldNotAddNullTask() {
+        //prepare
+        Task task = null;
+
+        //do
+        historyManager.add(task);
+
+        //check
+        List<Task> history = historyManager.getHistory();
+        assertTrue(history.isEmpty());
+    }
+
+    @Test
+    void remove_shouldRemoveOneTask() {
+        //prepare
+        Task task = new Task(1, "Task1", "Description");
+
+        historyManager.add(task);
+
+        //do
+        historyManager.remove(task.getId());
+
+        //check
+        List<Task> history = historyManager.getHistory();
+        assertTrue(history.isEmpty());
+    }
+
+    @Test
+    void remove_shouldRemoveTask() {
+        // prepare
+        Task task1 = new Task(1, "Task1", "Description");
+        Task task2 = new Task(2, "Task2", "Description");
+        Task task3 = new Task(3, "Task3", "Description");
+        Task task4 = new Task(4, "Task4", "Description");
+
+        //do
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.add(task4);
+
+        //check
+        List<Task> history = historyManager.getHistory();
+        assertEquals(4, history.size());
+        historyManager.remove(2);
+        history = historyManager.getHistory();
+        assertEquals(3, history.size());
+    }
 }
