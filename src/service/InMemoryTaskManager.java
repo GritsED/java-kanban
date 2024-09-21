@@ -121,7 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Такой задачи нет");
             return;
         }
-        for (Integer subtaskId : epic.getSubtasksIds()) {//Получаем id сабтасков и удаляем их из мапы с сабтасками
+        for (Integer subtaskId : epic.getSubtasksIds()) { //Получаем id сабтасков и удаляем их из мапы с сабтасками
             idToSubtask.remove(subtaskId);
             historyManager.remove(subtaskId);
         }
