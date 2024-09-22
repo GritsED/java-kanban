@@ -22,13 +22,13 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void linkLast(Task element) {
-        Node oldTail = tail; // запоминаем ссылку на хвост
         Node newNode = new Node(tail, element, null); // создаем новый узел, без следующей ссылки
-        tail = newNode;
-        if (oldTail == null)
+        if (head == null) {
             head = newNode;
-        else
-            oldTail.next = newNode;
+        } else {
+            tail.next = newNode;
+        }
+        tail = newNode;
     }
 
     private List<Task> getTasks() {
