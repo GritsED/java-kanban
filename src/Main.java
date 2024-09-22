@@ -14,71 +14,54 @@ public class Main {
 
         Task task1 = taskManager.addNewTask(new Task("Задача 1", "Описание 1"));
         Task task2 = taskManager.addNewTask(new Task("Задача 2", "Описание 2"));
-
         Epic epic1 = taskManager.addNewEpic(new Epic("Эпик 1", "Описание эпика 1"));
-        Epic epic2 = taskManager.addNewEpic(new Epic("Эпик 2", "Описание эпика 2"));
-
-        System.out.println(taskManager.getAllEpics());
-
         Subtask subtask1 = taskManager.addNewSubtask(new Subtask("Подзадача 1 к эпику 1",
                 "Описание 1", TaskStatus.NEW, epic1.getId()));
         Subtask subtask2 = taskManager.addNewSubtask(new Subtask("Подзадача 2 к эпику 1",
                 "Описание 1", TaskStatus.DONE, epic1.getId()));
-
-        System.out.println(taskManager.getAllTasks());
-        System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());
-        System.out.println("-".repeat(20));
-
-        Task updateTask1 = new Task(task1.getId(), "Задача 1", "Новое описание");
-        Task updateTask2 = new Task(task2.getId(), "Задача 2", "Новое описание");
-        System.out.println(taskManager.updateTask(updateTask1));
-        System.out.println(taskManager.updateTask(updateTask2));
-        System.out.println(taskManager.getAllTasks());
-        System.out.println("-".repeat(20));
-
-        Subtask updateSubtask11 = new Subtask("Подзадача 1 к эпику 1",
-                "Новое описание подзадачи к эпику 1", TaskStatus.NEW, epic1.getId());
-        Subtask updateSubtask12 = new Subtask("Подзадача 2 к эпику 1",
-                "Новое описание подзадачи 1 2", TaskStatus.DONE, 15);
-        updateSubtask11.setId(subtask1.getId());
-        updateSubtask12.setId(subtask2.getId());
-        taskManager.updateTask(updateSubtask11);
-        taskManager.updateTask(updateSubtask12);
-        System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());
-        System.out.println("-".repeat(20));
+        Subtask subtask3 = taskManager.addNewSubtask(new Subtask("Подзадача 3 к эпику 1",
+                "Описание 1", TaskStatus.DONE, epic1.getId()));
+        Epic epic2 = taskManager.addNewEpic(new Epic("Эпик 2", "Описание эпика 2"));
 
         System.out.println(taskManager.getTaskById(task1.getId()));
         System.out.println(taskManager.getTaskById(task2.getId()));
         System.out.println(taskManager.getEpicById(epic1.getId()));
-        System.out.println(taskManager.getSubtasksByEpic(epic1.getId()));
-        System.out.println(taskManager.getHistory());
-        System.out.println("-".repeat(20));
+        System.out.println(taskManager.getEpicById(epic2.getId()));
+        System.out.println(taskManager.getSubtaskById(subtask1.getId()));
+        System.out.println(taskManager.getSubtaskById(subtask2.getId()));
+        System.out.println(taskManager.getSubtaskById(subtask3.getId()));
+        System.out.println("-".repeat(50));
+
+        printHistory(taskManager);
+        System.out.println("-".repeat(50));
+
+        System.out.println(taskManager.getTaskById(task2.getId()));
+        System.out.println(taskManager.getEpicById(epic1.getId()));
+        System.out.println(taskManager.getTaskById(task1.getId()));
+        System.out.println(taskManager.getSubtaskById(subtask1.getId()));
+        System.out.println(taskManager.getSubtaskById(subtask2.getId()));
+        System.out.println(taskManager.getEpicById(epic2.getId()));
+        System.out.println(taskManager.getSubtaskById(subtask3.getId()));
+        System.out.println("-".repeat(50));
+
+        printHistory(taskManager);
+        System.out.println("-".repeat(50));
 
         taskManager.deleteTaskById(task1.getId());
-        System.out.println(taskManager.getAllTasks());
+        printHistory(taskManager);
+        System.out.println("-".repeat(50));
 
-        taskManager.deleteSubtaskById(subtask2.getId());
-        taskManager.deleteEpicById(epic2.getId());
+        taskManager.deleteEpicById(epic1.getId());
+        printHistory(taskManager);
+        System.out.println("-".repeat(50));
 
-        System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());
-        System.out.println("-".repeat(20));
 
-        taskManager.deleteAllTasks();
-        System.out.println(taskManager.getAllTasks());
-        System.out.println(taskManager.getAllSubtasks());
-        System.out.println(taskManager.getAllEpics());
-        System.out.println("-".repeat(20));
+    }
 
-        taskManager.deleteAllSubtasks();
-        System.out.println(taskManager.getAllSubtasks());
-        System.out.println(taskManager.getAllEpics());
-        System.out.println("-".repeat(20));
-
-        taskManager.deleteAllEpics();
-        System.out.println(taskManager.getAllEpics());
-        System.out.println("-".repeat(20));
+    public static void printHistory(TaskManager taskManager) {
+        System.out.println("History");
+        for (Task history : taskManager.getHistory()) {
+            System.out.println(history);
+        }
     }
 }
