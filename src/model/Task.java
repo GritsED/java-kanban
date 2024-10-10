@@ -8,6 +8,8 @@ public class Task {
     protected String description;
     protected TaskStatus status;
 
+    protected final Type type = Type.TASK;
+
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
@@ -48,6 +50,10 @@ public class Task {
         this.description = description;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -66,12 +72,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        return String.format("%s,%s,%s,%s,%s", id, type, name, description, status);
     }
 
     @Override
