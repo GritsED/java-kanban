@@ -1,14 +1,14 @@
 package service;
 
-import exceptions.ManagerLoadException;
 import exceptions.ManagerSaveException;
 import model.Epic;
 import model.Subtask;
 import model.Task;
-import model.TaskStatus;
 
 import java.io.*;
 import java.util.List;
+
+import static service.TaskConverter.fromString;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private File file;
@@ -17,7 +17,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    private void save() throws ManagerSaveException {
+    private void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             List<Task> allTasks = getAllTasks();
             List<Epic> allEpics = getAllEpics();
@@ -26,17 +26,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             bw.write("ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC\n");
 
             for (Task task : allTasks) {
-                String taskAsString = task.toString();
+                String taskAsString = TaskConverter.toString(task);
                 bw.write(taskAsString + "\n");
             }
 
             for (Epic epic : allEpics) {
-                String epicAsString = epic.toString();
+                String epicAsString = TaskConverter.toString(epic);
                 bw.write(epicAsString + "\n");
             }
 
             for (Subtask subtask : allSubtasks) {
-                String subtaskAsString = subtask.toString();
+                String subtaskAsString = TaskConverter.toString(subtask);
                 bw.write(subtaskAsString + "\n");
             }
         } catch (IOException e) {
@@ -44,39 +44,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public static Task fromString(String value) {
-        String[] contents = value.split(",");
-        int id = Integer.parseInt(contents[0]);
-        String name = contents[2];
-        TaskStatus status;
-        String description = contents[4];
-
-        switch (contents[3]) {
-            case "IN_PROGRESS":
-                status = TaskStatus.IN_PROGRESS;
-                break;
-            case "Done":
-                status = TaskStatus.DONE;
-                break;
-            default:
-                status = TaskStatus.NEW;
-        }
-
-        switch (contents[1]) {
-            case "TASK":
-                return new Task(id, name, description, status);
-            case "EPIC":
-                return new Epic(id, name, description, status);
-            case "SUBTASK":
-                int epicId = Integer.parseInt(contents[5]);
-                return new Subtask(id, name, description, status, epicId);
-            default:
-                return null;
-        }
-
-    }
-
-    public static TaskManager loadFromFile(File file) throws ManagerLoadException {
+    public static TaskManager loadFromFile(File file) {
         FileBackedTaskManager taskManager = new FileBackedTaskManager(file);
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -112,7 +80,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
         } catch (IOException e) {
-            throw new ManagerLoadException("Error reading file: " + e.getMessage()); // свое исключение loadException
+            throw new ManagerSaveException("Error reading file: " + e.getMessage()); // свое исключение loadException
         }
         return taskManager;
     }
@@ -120,138 +88,78 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     @Override
     public Task addNewTask(Task newTask) {
         Task addedTask = super.addNewTask(newTask);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
         return addedTask;
     }
 
     @Override
     public Epic addNewEpic(Epic newEpic) {
         Epic addedEpic = super.addNewEpic(newEpic);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
         return addedEpic;
     }
 
     @Override
     public Subtask addNewSubtask(Subtask newSubtask) {
         Subtask addedSubtask = super.addNewSubtask(newSubtask);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
         return addedSubtask;
     }
 
     @Override
     public Task updateTask(Task task) {
         Task updatedTask = super.updateTask(task);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
         return updatedTask;
     }
 
     @Override
     public Epic updateEpic(Epic epic) {
         Epic updatedEpic = super.updateEpic(epic);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
         return updatedEpic;
     }
 
     @Override
     public Subtask updateSubtask(Subtask subtask) {
         Subtask updatedSubtask = super.updateSubtask(subtask);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
         return updatedSubtask;
     }
 
     @Override
     public void deleteTaskById(Integer id) {
         super.deleteTaskById(id);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
     }
 
     @Override
     public void deleteEpicById(Integer id) {
         super.deleteEpicById(id);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
     }
 
     @Override
     public void deleteSubtaskById(Integer id) {
         super.deleteSubtaskById(id);
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
     }
 
     @Override
     public void deleteAllTasks() {
         super.deleteAllTasks();
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
     }
 
     @Override
     public void deleteAllEpics() {
         super.deleteAllEpics();
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
     }
 
     @Override
     public void deleteAllSubtasks() {
         super.deleteAllSubtasks();
-
-        try {
-            save();
-        } catch (ManagerSaveException mse) {
-            System.out.println(mse.getMessage());
-        }
+        save();
     }
 }

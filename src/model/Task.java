@@ -7,8 +7,7 @@ public class Task {
     protected String name;
     protected String description;
     protected TaskStatus status;
-
-    protected final Type type = Type.TASK;
+    protected Type type;
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
@@ -34,6 +33,13 @@ public class Task {
         this.status = status;
     }
 
+    public Task(Integer id, String name, TaskStatus status, String description) {
+        this.id = id;
+        this.name = name;
+        this.status = status;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
@@ -51,7 +57,7 @@ public class Task {
     }
 
     public Type getType() {
-        return type;
+        return type = Type.TASK;
     }
 
     public Integer getId() {
@@ -72,7 +78,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s", id, type, name, description, status);
+        return String.format("%s,%s,%s,%s,%s", id, getType(), name, status, description);
     }
 
     @Override
