@@ -42,11 +42,11 @@ public class TaskConverter {
 
     public static String toString(Task task) {
         if (task instanceof Subtask subtask) {
-            return String.format("%s,%s,%s,%s,%s,%s", task.getId(), task.getType(), task.getName(), task.getStatus()
-                    , task.getDescription(), subtask.getEpicId());
+            return String.format("%s,%s,%s,%s,%s,%s", task.getId(), task.getType(), task.getName(), task.getStatus(),
+                    task.getDescription(), subtask.getEpicId());
         } else {
-            return String.format("%s,%s,%s,%s,%s", task.getId(), task.getType(), task.getName(), task.getStatus()
-                    , task.getDescription());
+            return String.format("%s,%s,%s,%s,%s", task.getId(), task.getType(), task.getName(), task.getStatus(),
+                    task.getDescription());
         }
     }
 }
