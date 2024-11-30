@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +10,8 @@ public class Task {
     protected String description;
     protected TaskStatus status;
     protected Type type;
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
@@ -38,6 +42,15 @@ public class Task {
         this.name = name;
         this.status = status;
         this.description = description;
+    }
+
+    public Task(Integer id, String name, String description, TaskStatus status, Duration duration, LocalDateTime startTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public String getName() {
@@ -74,6 +87,11 @@ public class Task {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public LocalDateTime getEndTime() {
+        // найти продолжительность задачи через старттайм + дюрейшн
+        return startTime.plus(duration);
     }
 
     @Override
