@@ -34,7 +34,7 @@ public class Epic extends Task {
     }
 
     public List<Integer> getSubtasksIds() {
-        return subtasksIds;
+        return new ArrayList<>(subtasksIds);
     }
 
     public void addSubtasksId(int subtaskId) {
@@ -51,11 +51,16 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s", id, getType(), name, status, description);
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s", id, getType(), name, status, description, duration,
+                startTime, endTime);
     }
 
     @Override
     public LocalDateTime getEndTime() {
         return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

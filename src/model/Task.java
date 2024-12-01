@@ -90,13 +90,13 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
-        // найти продолжительность задачи через старттайм + дюрейшн
-        return startTime.plus(duration);
+        return Objects.isNull(duration) || Objects.isNull(startTime) ? null : startTime.plus(duration);
     }
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s", id, getType(), name, status, description);
+        return String.format("%s,%s,%s,%s,%s,%s,%s", id, getType(), name, status, description,
+                duration, startTime);
     }
 
     @Override
@@ -110,5 +110,24 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public Duration getDuration() {
+        if (Objects.nonNull(duration)) {
+            return duration;
+        }
+        return Duration.ofMinutes(0);
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 }
