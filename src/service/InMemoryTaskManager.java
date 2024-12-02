@@ -298,13 +298,13 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         for (int id : epic.getSubtasksIds()) {
-            switch (idToSubtask.get(id).getStatus()) {
-                case IN_PROGRESS -> {
-                    epic.setStatus(TaskStatus.IN_PROGRESS);
-                    return;
-                }
-                case DONE -> counterDone++;
-                case NEW -> counterNew++;
+            if (idToSubtask.get(id).getStatus() == TaskStatus.IN_PROGRESS) {
+                epic.setStatus(TaskStatus.IN_PROGRESS);
+                return;
+            } else if (idToSubtask.get(id).getStatus() == TaskStatus.DONE) {
+                counterDone++;
+            } else if (idToSubtask.get(id).getStatus() == TaskStatus.NEW) {
+                counterNew++;
             }
         }
         if (counterNew == epic.getSubtasksIds().size()) {

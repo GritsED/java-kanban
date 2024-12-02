@@ -4,6 +4,8 @@ class InMemoryTaskManagerTest extends AbstractTaskManagerTest<InMemoryTaskManage
 
     @Override
     protected InMemoryTaskManager createTaskManager() {
-        return Managers.getInMemoryTaskManager();
+        return Managers.getDefault();
     }
+
+
 }

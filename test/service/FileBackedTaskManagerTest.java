@@ -22,8 +22,7 @@ class FileBackedTaskManagerTest extends AbstractTaskManagerTest<FileBackedTaskMa
         } catch (IOException e) {
             e.printStackTrace();
         }
-        FileBackedTaskManager taskManager;
-        return taskManager = Managers.getFileBackedTaskManager(file);
+        return Managers.getFileBackedTaskManager(file);
     }
 
     @Test

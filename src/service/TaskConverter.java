@@ -18,7 +18,7 @@ public class TaskConverter {
         Duration duration ;
         LocalDateTime startTime ;
 
-        if (!type.equals("EPIC")) {
+        if (!type.equals("EPIC") && contents[7] != null && !contents[7].equals("null")) {
             duration = Duration.ofMinutes(Integer.parseInt(contents[6]));
             startTime = LocalDateTime.parse(contents[7]);
         } else {
@@ -26,22 +26,17 @@ public class TaskConverter {
             startTime = null;
         }
 
-        switch (statusString) {
-            case "IN_PROGRESS":
-                status = TaskStatus.IN_PROGRESS;
-                break;
-            case "DONE":
-                status = TaskStatus.DONE;
-                break;
-            default:
-                status = TaskStatus.NEW;
-        }
+        status = switch (statusString) {
+            case "IN_PROGRESS" -> TaskStatus.IN_PROGRESS;
+            case "DONE" -> TaskStatus.DONE;
+            default -> TaskStatus.NEW;
+        };
 
         switch (type) {
             case "TASK":
                 return new Task(id, name, description, status, duration, startTime);
             case "EPIC":
-                return new Epic(id, name, description, status, duration, null, null);
+                return new Epic(id, name, description, status);
             case "SUBTASK":
                 int epicId = Integer.parseInt(contents[5]);
                 return new Subtask(id, name, description, status, duration, startTime, epicId);
