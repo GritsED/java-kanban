@@ -5,6 +5,9 @@ import model.TaskStatus;
 import service.Managers;
 import service.TaskManager;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -12,56 +15,26 @@ public class Main {
 
         TaskManager taskManager = Managers.getDefault();
 
-        Task task1 = taskManager.addNewTask(new Task("Задача 1", "Описание 1"));
-        Task task2 = taskManager.addNewTask(new Task("Задача 2", "Описание 2"));
-        Epic epic1 = taskManager.addNewEpic(new Epic("Эпик 1", "Описание эпика 1"));
-        Subtask subtask1 = taskManager.addNewSubtask(new Subtask("Подзадача 1 к эпику 1",
-                "Описание 1", TaskStatus.NEW, epic1.getId()));
-        Subtask subtask2 = taskManager.addNewSubtask(new Subtask("Подзадача 2 к эпику 1",
-                "Описание 1", TaskStatus.DONE, epic1.getId()));
-        Subtask subtask3 = taskManager.addNewSubtask(new Subtask("Подзадача 3 к эпику 1",
-                "Описание 1", TaskStatus.DONE, epic1.getId()));
-        Epic epic2 = taskManager.addNewEpic(new Epic("Эпик 2", "Описание эпика 2"));
+        Task task = new Task(0, "Name", "Description", TaskStatus.NEW, Duration.ofMinutes(0), LocalDateTime.now().plusDays(2));
+        Task task1 = new Task(1, "Name1", "Description1", TaskStatus.IN_PROGRESS, Duration.ofMinutes(150), LocalDateTime.now());
+        Task task2 = new Task(2, "Name2", "Description2", TaskStatus.DONE, Duration.ofMinutes(70), LocalDateTime.of(2024, 11, 30, 0, 0));
 
-        System.out.println(taskManager.getTaskById(task1.getId()));
-        System.out.println(taskManager.getTaskById(task2.getId()));
-        System.out.println(taskManager.getEpicById(epic1.getId()));
-        System.out.println(taskManager.getEpicById(epic2.getId()));
-        System.out.println(taskManager.getSubtaskById(subtask1.getId()));
-        System.out.println(taskManager.getSubtaskById(subtask2.getId()));
-        System.out.println(taskManager.getSubtaskById(subtask3.getId()));
-        System.out.println("-".repeat(50));
+        taskManager.addNewTask(task);
+        taskManager.addNewTask(task1);
+        taskManager.addNewTask(task2);
 
-        printHistory(taskManager);
-        System.out.println("-".repeat(50));
+        Epic epic = new Epic(3, "Epic", "Description");
+        taskManager.addNewEpic(epic);
 
-        System.out.println(taskManager.getTaskById(task2.getId()));
-        System.out.println(taskManager.getEpicById(epic1.getId()));
-        System.out.println(taskManager.getTaskById(task1.getId()));
-        System.out.println(taskManager.getSubtaskById(subtask1.getId()));
-        System.out.println(taskManager.getSubtaskById(subtask2.getId()));
-        System.out.println(taskManager.getEpicById(epic2.getId()));
-        System.out.println(taskManager.getSubtaskById(subtask3.getId()));
-        System.out.println("-".repeat(50));
+        Subtask subtask = new Subtask(4, "subtask", "Descr", TaskStatus.NEW,
+                Duration.ofMinutes(1000), LocalDateTime.now(), epic.getId());
+        Subtask subtask2 = new Subtask(5, "subtask2", "Descr2", TaskStatus.DONE,
+                Duration.ofMinutes(3000), LocalDateTime.of(2024, 11, 28, 0, 0), epic.getId());
+        taskManager.addNewSubtask(subtask);
+        taskManager.addNewSubtask(subtask2);
 
-        printHistory(taskManager);
-        System.out.println("-".repeat(50));
-
-        taskManager.deleteTaskById(task1.getId());
-        printHistory(taskManager);
-        System.out.println("-".repeat(50));
-
-        taskManager.deleteEpicById(epic1.getId());
-        printHistory(taskManager);
-        System.out.println("-".repeat(50));
+        System.out.println("taskManager.getPrioritizedTasks() = " + taskManager.getPrioritizedTasks());
 
 
-    }
-
-    public static void printHistory(TaskManager taskManager) {
-        System.out.println("History");
-        for (Task history : taskManager.getHistory()) {
-            System.out.println(history);
-        }
     }
 }

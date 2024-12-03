@@ -15,8 +15,8 @@ public class TaskConverter {
         String type = contents[1];
         TaskStatus status;
         String description = contents[4];
-        Duration duration ;
-        LocalDateTime startTime ;
+        Duration duration;
+        LocalDateTime startTime;
 
         if (!type.equals("EPIC") && contents[7] != null && !contents[7].equals("null")) {
             duration = Duration.ofMinutes(Integer.parseInt(contents[6]));
@@ -52,7 +52,7 @@ public class TaskConverter {
                     subtask.getStartTime(), subtask.getEndTime());
         } else {
             return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", task.getId(), task.getType(), task.getName(), task.getStatus(),
-                    task.getDescription(),"", task.getDuration().toMinutes(), task.getStartTime(), task.getEndTime());
+                    task.getDescription(), "", task.getDuration().toMinutes(), task.getStartTime(), task.getEndTime());
         }
     }
 }

@@ -289,6 +289,10 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
+    private int generateNewId() {
+        return id++;
+    }
+
     private void updateEpicStatus(int epicId) {
         Epic epic = idToEpic.get(epicId);
         int counterNew = 0;
@@ -345,11 +349,7 @@ public class InMemoryTaskManager implements TaskManager {
         return prioritizedTasks.stream().toList();
     }
 
-    private int generateNewId() {
-        return id++;
-    }
-
-    private void addTaskInSet(Task task) {
+    protected void addTaskInSet(Task task) {
         if (task.getStartTime() == null || task instanceof Epic) {
             return;
         }
