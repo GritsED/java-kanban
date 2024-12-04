@@ -362,7 +362,8 @@ public class InMemoryTaskManager implements TaskManager {
         LocalDateTime endTime1 = task1.getEndTime();
         LocalDateTime endTime2 = task2.getEndTime();
 
-        return startTime1.isBefore(endTime2) && endTime1.isAfter(startTime2);
+        return (startTime1.isBefore(endTime2) && endTime1.isAfter(startTime2)) || (startTime1.isEqual(startTime2)
+                && endTime1.isEqual(endTime2));
     }
 
     private boolean isTasksCrossover(Task newTask) {
