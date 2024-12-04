@@ -3,7 +3,6 @@ package service;
 import java.io.File;
 
 public class Managers {
-    public static final File file = new File("src/test.csv");
 
     public static InMemoryTaskManager getDefault() {
         return new InMemoryTaskManager();

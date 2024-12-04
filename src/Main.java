@@ -5,6 +5,7 @@ import model.TaskStatus;
 import service.Managers;
 import service.TaskManager;
 
+import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -13,9 +14,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
 
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Managers.getFileBackedTaskManager(new File("src/test.csv"));
 
-        Task task = new Task(0, "Name", "Description", TaskStatus.NEW, Duration.ofMinutes(0), LocalDateTime.now().plusDays(2));
+        Task task = new Task(0, "Name", "Description", TaskStatus.NEW);
         Task task1 = new Task(1, "Name1", "Description1", TaskStatus.IN_PROGRESS, Duration.ofMinutes(150), LocalDateTime.now());
         Task task2 = new Task(2, "Name2", "Description2", TaskStatus.DONE, Duration.ofMinutes(70), LocalDateTime.of(2024, 11, 30, 0, 0));
 
