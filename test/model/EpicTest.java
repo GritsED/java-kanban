@@ -7,15 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class EpicTest {
 
     @Test
-    void shouldBeEqualsEpics (){
+    void shouldBeEqualsEpics() {
         //prepare
-        Epic epic1 = new Epic(1,"Epic1", "Description");
-        Epic epic2 = new Epic(1,"Epic1", "Description");
+        Epic epic1 = new Epic(1, "Epic1", "Description");
+        Epic epic2 = new Epic(1, "Epic1", "Description");
 
         //check
-        assertEquals(epic1,epic2);
+        assertEquals(epic1, epic2);
     }
-
 
 
 }

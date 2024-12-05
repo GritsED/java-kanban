@@ -7,14 +7,25 @@ import model.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 abstract class AbstractTaskManagerTest<T extends TaskManager> {
     protected T taskManager;
+    Duration duration;
+    LocalDateTime ldt1;
+    LocalDateTime ldt2;
+    LocalDateTime ldt3;
 
     @BeforeEach
     void init() {
         taskManager = createTaskManager();
+        duration = Duration.ofMinutes(30);
+        ldt1 = LocalDateTime.of(2024, 12, 1, 0, 0);
+        ldt2 = LocalDateTime.of(2024, 12, 2, 0, 0);
+        ldt3 = LocalDateTime.of(2024, 12, 3, 0, 0);
     }
 
     protected abstract T createTaskManager();

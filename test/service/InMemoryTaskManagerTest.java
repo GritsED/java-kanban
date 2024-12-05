@@ -4,31 +4,19 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 import model.TaskStatus;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class InMemoryTaskManagerTest extends AbstractTaskManagerTest<InMemoryTaskManager> {
-    Duration duration;
-    LocalDateTime ldt1;
-    LocalDateTime ldt2;
-    LocalDateTime ldt3;
 
     @Override
     protected InMemoryTaskManager createTaskManager() {
         return Managers.getDefault();
-    }
-
-    @BeforeEach
-    void initTimeAndDuration() {
-        duration = Duration.ofMinutes(30);
-        ldt1 = LocalDateTime.of(2024, 12,1,0,0);
-        ldt2 = LocalDateTime.of(2024, 12,2,0,0);
-        ldt3 = LocalDateTime.of(2024, 12,3,0,0);
     }
 
     @Test
@@ -84,9 +72,9 @@ class InMemoryTaskManagerTest extends AbstractTaskManagerTest<InMemoryTaskManage
         Epic epic = new Epic(1, "Name1", "Description1", TaskStatus.IN_PROGRESS);
         Epic epic1 = new Epic(2, "Name2", "Description1");
         Subtask subtask1 = new Subtask(3, "subtask", "Descr", TaskStatus.NEW,
-                duration,ldt1, epic1.getId());
+                duration, ldt1, epic1.getId());
         Subtask subtask2 = new Subtask(4, "subtask2", "Descr2", TaskStatus.DONE,
-                duration,ldt3, epic1.getId());
+                duration, ldt3, epic1.getId());
 
         //do
         taskManager.addNewEpic(epic);
@@ -104,7 +92,5 @@ class InMemoryTaskManagerTest extends AbstractTaskManagerTest<InMemoryTaskManage
 
 
     }
-
-
 
 }

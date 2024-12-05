@@ -7,13 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskTest {
 
     @Test
-    void shouldBeEqualsTasks(){
+    void shouldBeEqualsTasks() {
         //prepare
         Task task1 = new Task(1, "Task", "Description");
         Task task2 = new Task(1, "Task", "Description");
 
         //check
-        assertEquals(task1,task2);
+        assertEquals(task1, task2);
     }
 
     @Test
