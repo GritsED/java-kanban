@@ -23,7 +23,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             List<Epic> allEpics = getAllEpics();
             List<Subtask> allSubtasks = getAllSubtasks();
 
-            bw.write("ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC\n");
+            bw.write("ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC,DURATION,START_TIME,END_TIME\n");
 
             for (Task task : allTasks) {
                 String taskAsString = TaskConverter.toString(task);
@@ -54,30 +54,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 String line = br.readLine();
                 Task task = fromString(line);
 
-                if (maxId > taskManager.id) {
-                    taskManager.id = maxId + 1;
-                }
+                if (maxId > taskManager.id) taskManager.id = maxId + 1;
 
                 if (task != null) {
                     maxId = task.getId();
                     switch (task.getType()) {
-                        case TASK:
-                            taskManager.idToTask.put(task.getId(), task);
-                            break;
-                        case EPIC:
-                            taskManager.idToEpic.put(task.getId(), (Epic) task);
-                            break;
-                        case SUBTASK:
-                            taskManager.idToSubtask.put(task.getId(), (Subtask) task);
-                            break;
+                        case TASK -> taskManager.idToTask.put(task.getId(), task);
+                        case EPIC -> taskManager.idToEpic.put(task.getId(), (Epic) task);
+                        case SUBTASK -> taskManager.idToSubtask.put(task.getId(), (Subtask) task);
                     }
                 }
 
 
-                for (Subtask sub : taskManager.idToSubtask.values()) {
+                taskManager.idToSubtask.values().forEach(sub -> {
                     Epic epic = taskManager.idToEpic.get(sub.getEpicId());
                     epic.addSubtasksId(sub.getId());
-                }
+                });
             }
         } catch (IOException e) {
             throw new ManagerSaveException("Error reading file: " + e.getMessage()); // свое исключение loadException

@@ -1,5 +1,8 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
 
     private Integer epicId;
@@ -28,13 +31,20 @@ public class Subtask extends Task {
         super(id, name, description);
     }
 
+    public Subtask(Integer id, String name, String description, TaskStatus status, Duration duration,
+                   LocalDateTime startTime, Integer epicId) {
+        super(id, name, description, status, duration, startTime);
+        this.epicId = epicId;
+    }
+
     public int getEpicId() {
         return epicId;
     }
 
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s", id, getType(), name, status, description, epicId);
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s", id, getType(), name, status, description,
+                duration, startTime, epicId);
     }
 
     @Override

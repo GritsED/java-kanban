@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SubtaskTest {
 
     @Test
-    void shouldBeEqualsSubtasks () {
+    void shouldBeEqualsSubtasks() {
         Subtask subtask1 = new Subtask(1, "Subtask", "Description");
         Subtask subtask2 = new Subtask(1, "Subtask", "Description");
 

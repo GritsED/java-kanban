@@ -20,7 +20,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void add_shouldAddTask(){
+    void add_shouldAddTask() {
         //prepare
         Task task1 = new Task(0, "Task1", "Description");
 

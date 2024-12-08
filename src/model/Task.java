@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +10,8 @@ public class Task {
     protected String description;
     protected TaskStatus status;
     protected Type type;
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
@@ -38,6 +42,15 @@ public class Task {
         this.name = name;
         this.status = status;
         this.description = description;
+    }
+
+    public Task(Integer id, String name, String description, TaskStatus status, Duration duration, LocalDateTime startTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public String getName() {
@@ -76,9 +89,14 @@ public class Task {
         this.status = status;
     }
 
+    public LocalDateTime getEndTime() {
+        return Objects.isNull(duration) || Objects.isNull(startTime) ? null : startTime.plus(duration);
+    }
+
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s", id, getType(), name, status, description);
+        return String.format("%s,%s,%s,%s,%s,%s,%s", id, getType(), name, status, description,
+                duration, startTime);
     }
 
     @Override
@@ -92,5 +110,24 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public Duration getDuration() {
+        if (Objects.nonNull(duration)) {
+            return duration;
+        }
+        return Duration.ofMinutes(0);
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 }

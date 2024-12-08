@@ -3,14 +3,9 @@ package service;
 import java.io.File;
 
 public class Managers {
-    public static final File file = new File("src/test.csv");
 
-    public static InMemoryTaskManager getInMemoryTaskManager() {
+    public static InMemoryTaskManager getDefault() {
         return new InMemoryTaskManager();
-    }
-
-    public static TaskManager getDefault() {
-        return new FileBackedTaskManager(file);
     }
 
     public static HistoryManager getDefaultHistory() {
