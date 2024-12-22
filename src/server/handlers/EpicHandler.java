@@ -94,7 +94,7 @@ public class EpicHandler extends TaskHandler {
                 return;
             }
             if (pathParts.length == 2 && pathParts[1].equals("epics")) {
-                Task addedEpic = manager.addNewEpic(gson.fromJson(body, Epic.class));
+                Epic addedEpic = manager.addNewEpic(gson.fromJson(body, Epic.class));
                 if (Objects.nonNull(addedEpic)) {
                     sendText(exchange, gson.toJson(addedEpic), 201);
                 } else {
@@ -102,7 +102,7 @@ public class EpicHandler extends TaskHandler {
                 }
             } else if (pathParts.length == 3 && pathParts[1].equals("epics") && idPath.isPresent()
                     && Pattern.matches("\\d+", pathParts[2])) {
-                Task updatedEpic = manager.updateEpic(gson.fromJson(body, Epic.class));
+                Epic updatedEpic = manager.updateEpic(gson.fromJson(body, Epic.class));
                 if (Objects.nonNull(updatedEpic)) {
                     sendText(exchange, gson.toJson(updatedEpic), 201);
                 } else {
