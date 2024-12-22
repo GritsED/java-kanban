@@ -2,24 +2,15 @@ package service;
 
 import model.Task;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final Map<Integer, Node> historyMap = new HashMap<>();
     private Node head;
     private Node tail;
-
-    static class Node {
-        Node prev;
-        Node next;
-        Task task;
-
-        public Node(Node prev, Task task, Node next) {
-            this.prev = prev;
-            this.next = next;
-            this.task = task;
-        }
-    }
 
     private void linkLast(Task element) {
         Node newNode = new Node(tail, element, null); // создаем новый узел, без следующей ссылки
@@ -88,5 +79,17 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return getTasks();
+    }
+
+    static class Node {
+        Node prev;
+        Node next;
+        Task task;
+
+        public Node(Node prev, Task task, Node next) {
+            this.prev = prev;
+            this.next = next;
+            this.task = task;
+        }
     }
 }

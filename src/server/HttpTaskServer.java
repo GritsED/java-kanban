@@ -23,17 +23,17 @@ public class HttpTaskServer {
         httpServer.createContext("/prioritized", new PrioritizedHandler(manager));
     }
 
+    public static void main(String[] args) throws IOException {
+        TaskManager manager = Managers.getDefault();
+        HttpTaskServer server = new HttpTaskServer(manager);
+        server.start();
+    }
+
     public void start() {
         httpServer.start();
     }
 
     public void stop() {
         httpServer.stop(1);
-    }
-
-    public static void main(String[] args) throws IOException {
-        TaskManager manager = Managers.getDefault();
-        HttpTaskServer server = new HttpTaskServer(manager);
-        server.start();
     }
 }
