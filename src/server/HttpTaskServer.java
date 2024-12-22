@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class HttpTaskServer {
-    private final int PORT = 8080;
     private final HttpServer httpServer;
 
 
     public HttpTaskServer(TaskManager manager) throws IOException {
 
+        int PORT = 8080;
         httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
         httpServer.createContext("/tasks", new TaskHandler(manager));
         httpServer.createContext("/epics", new EpicHandler(manager));
