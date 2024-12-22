@@ -30,7 +30,7 @@ public class Epic extends Task {
     }
 
     public Epic(String name, String description, TaskStatus status, Duration duration,
-                 LocalDateTime startTime, LocalDateTime endTime) {
+                LocalDateTime startTime, LocalDateTime endTime) {
         super(name, description, status, duration, startTime);
         this.endTime = endTime;
     }
