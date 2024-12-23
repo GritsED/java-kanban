@@ -1,23 +1,14 @@
 package server.handlers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
-import server.adapter.DurationAdapter;
-import server.adapter.LocalDateTimeAdapter;
 import service.TaskManager;
 
 import java.io.IOException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 public class HistoryHandler extends BaseHttpHandler {
-    private final TaskManager manager;
-    private final Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Duration.class, new DurationAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     public HistoryHandler(TaskManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
     @Override

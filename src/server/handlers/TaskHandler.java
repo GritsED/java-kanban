@@ -1,30 +1,18 @@
 package server.handlers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import model.Task;
-import server.adapter.DurationAdapter;
-import server.adapter.LocalDateTimeAdapter;
 import service.TaskManager;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class TaskHandler extends BaseHttpHandler {
-    protected final TaskManager manager;
-    private final Charset utf8 = StandardCharsets.UTF_8;
-    private final Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Duration.class, new DurationAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
 
     public TaskHandler(TaskManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
     @Override
@@ -128,13 +116,5 @@ public class TaskHandler extends BaseHttpHandler {
         }
     }
 
-    protected Optional<Integer> getId(String requestPath) {
-        String[] pathParts = requestPath.split("/");
 
-        try {
-            return Optional.of(Integer.parseInt(pathParts[2]));
-        } catch (Exception exception) {
-            return Optional.empty();
-        }
-    }
 }

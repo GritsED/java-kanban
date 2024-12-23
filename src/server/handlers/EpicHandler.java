@@ -1,27 +1,16 @@
 package server.handlers;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import model.Epic;
 import model.Task;
-import server.adapter.DurationAdapter;
-import server.adapter.LocalDateTimeAdapter;
 import service.TaskManager;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-public class EpicHandler extends TaskHandler {
-    private final Charset utf8 = StandardCharsets.UTF_8;
-    private final Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Duration.class, new DurationAdapter())
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
+public class EpicHandler extends BaseHttpHandler {
 
     public EpicHandler(TaskManager manager) {
         super(manager);
