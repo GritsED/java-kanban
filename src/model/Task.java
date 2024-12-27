@@ -53,6 +53,16 @@ public class Task {
         this.startTime = startTime;
     }
 
+    public Task(String name, String description, TaskStatus status, Duration duration, LocalDateTime startTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
+
+
     public String getName() {
         return name;
     }

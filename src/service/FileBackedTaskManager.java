@@ -11,37 +11,10 @@ import java.util.List;
 import static service.TaskConverter.fromString;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private File file;
+    private final File file;
 
     public FileBackedTaskManager(File file) {
         this.file = file;
-    }
-
-    private void save() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-            List<Task> allTasks = getAllTasks();
-            List<Epic> allEpics = getAllEpics();
-            List<Subtask> allSubtasks = getAllSubtasks();
-
-            bw.write("ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC,DURATION,START_TIME,END_TIME\n");
-
-            for (Task task : allTasks) {
-                String taskAsString = TaskConverter.toString(task);
-                bw.write(taskAsString + "\n");
-            }
-
-            for (Epic epic : allEpics) {
-                String epicAsString = TaskConverter.toString(epic);
-                bw.write(epicAsString + "\n");
-            }
-
-            for (Subtask subtask : allSubtasks) {
-                String subtaskAsString = TaskConverter.toString(subtask);
-                bw.write(subtaskAsString + "\n");
-            }
-        } catch (IOException e) {
-            throw new ManagerSaveException("Error saving to file: " + e.getMessage());
-        }
     }
 
     public static TaskManager loadFromFile(File file) {
@@ -75,6 +48,33 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Error reading file: " + e.getMessage()); // свое исключение loadException
         }
         return taskManager;
+    }
+
+    private void save() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            List<Task> allTasks = getAllTasks();
+            List<Epic> allEpics = getAllEpics();
+            List<Subtask> allSubtasks = getAllSubtasks();
+
+            bw.write("ID,TYPE,NAME,STATUS,DESCRIPTION,EPIC,DURATION,START_TIME,END_TIME\n");
+
+            for (Task task : allTasks) {
+                String taskAsString = TaskConverter.toString(task);
+                bw.write(taskAsString + "\n");
+            }
+
+            for (Epic epic : allEpics) {
+                String epicAsString = TaskConverter.toString(epic);
+                bw.write(epicAsString + "\n");
+            }
+
+            for (Subtask subtask : allSubtasks) {
+                String subtaskAsString = TaskConverter.toString(subtask);
+                bw.write(subtaskAsString + "\n");
+            }
+        } catch (IOException e) {
+            throw new ManagerSaveException("Error saving to file: " + e.getMessage());
+        }
     }
 
     @Override
